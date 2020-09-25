@@ -36,7 +36,7 @@ const logoAddFunctionFactory = createLogoFunctionFactory(
 const logoConstantFunctionFactory = createLogoFunctionFactory(
   function ( argumentCallback )
   {
-    const [a,b]=useState(0);
+    const [a,b]=useState( this.args[0] );
     return (
       <div onClick={()=>{const n = prompt(); b(n);}}> { a } </div>
     );
