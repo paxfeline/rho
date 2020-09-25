@@ -4,37 +4,35 @@ import './App.css';
 
 function createLogoFunctionFactory( render, execute )
 {
-  const funcFactory =
-    function ( ...args ) // logo function
+  return (
+    function ( ...args ) // logo function (args A)
     {
       const func =
         function () // specific logo function
         {
-          execute.apply( func, func.args );
+          return execute.apply( null, func.args );
         };
       func.render = render;
-      func.setArguments = function ( ...args ) { func.args = args; }
-      func.setArguments( args ); // factory method initializes new object
+      func.setArguments =
+        function ( ...args ) { func.args = args; } // args B
+      func.setArguments( ...args ); // factory method initializes new object w/ default vals (args A)
       return func;
-    };
-  
-  return funcFactory;
+    }
+  );
 }
 
 const logoForwardFunctionFactory = createLogoFunctionFactory(
-  function ()
+  function ( a, b )
   {
     return (
-      <div>
-        {this.args[0]} + {this.args[1]}
-      </div>
+      <div> {a} + {b} </div>
     );
   },
-  function ()
+  function ( a, b )
   {
-    return this.args[0] + this.args[1];
+    return a + b;
   }
-)
+);
 
 const fwd1 = logoForwardFunctionFactory( 2, 3 );
 //fwd1.setArguments( 2, 3 );
