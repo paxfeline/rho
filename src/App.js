@@ -56,9 +56,18 @@ console.log( add1(), "first" );
 
 const prog = [ add1 ];
 
+function RFC({depth = 0})
+{
+  debugger;
+  return depth < 5 ?
+    <div class={"depth" + depth}><RFC depth={depth + 1} /></div>
+    : null;
+}
+
 function App() {
   return (
     <div>
+      <RFC />
       {
         const5.render( n => n )
       }
