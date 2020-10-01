@@ -24,14 +24,13 @@ function LogoExpressionComposer( props )
             <div className="LECBlock" ref={block}>
                 <logoFunc.render
                     LECCallback={ LogoExpressionComposer }
-                    args={ logoFunc.args }
-                    closeBtn={
-                        <div
-                            className="LECCloseBtn"
-                            onClick={ () => setLogoFunc( null ) }
-                            onMouseOver={ () => block.current.style.background = 'pink' }
-                            onMouseOut={ () => block.current.style.background = 'initial' }
-                        >X</div>} />
+                    args={ logoFunc.args } />
+                <div
+                        className="LECCloseBtn"
+                        onClick={ () => setLogoFunc( null ) }
+                        onMouseOver={ () => block.current.style.background = 'pink' }
+                        onMouseOut={ () => block.current.style.background = 'initial' }
+                    >X</div>
             </div>
     );
 }

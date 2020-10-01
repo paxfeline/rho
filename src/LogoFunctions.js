@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-export const createLogoFunctionFactory = function ( render, execute, name, defaultArguments )
+export const createLogoFunction = function ( render, execute, name, defaultArguments )
 {
   const funcFact =
     function () // logo function factory
@@ -20,13 +20,12 @@ export const createLogoFunctionFactory = function ( render, execute, name, defau
   return funcFact;
 }
 
-export const logoAddFunctionFactory = createLogoFunctionFactory(
-  function ( { LECCallback, args, closeBtn } )
+export const logoAddFunction = createLogoFunction(
+  function ( { LECCallback, args } )
   {
     return (
         <React.Fragment>
             <LECCallback /> + <LECCallback />
-            {closeBtn}
         </React.Fragment>
     );
   },
@@ -37,8 +36,8 @@ export const logoAddFunctionFactory = createLogoFunctionFactory(
   "add (operation)",
 );
 
-export const logoConstantFunctionFactory = createLogoFunctionFactory(
-  function ( { LECCallback, args, closeBtn } )
+export const logoConstantFunction = createLogoFunction(
+  function ( { LECCallback, args } )
   {
     const [ value, setValue ] = useState( args[0] );
     const [ editing, setEditing ] = useState( false );
@@ -58,6 +57,10 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
             setValue( e.target.value );
             setEditing( false );
         }
+        else if ( e.key === 'Escape' )
+        {
+            setEditing( false );
+        }
     }
 
     return (
@@ -67,9 +70,8 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
                 ?
                     <input ref={infield} className="LECTextInput" onKeyDown={ processInput } />
                 :
-                    <span className="LECBlockValue">{value}</span>
+                    <span className="LECBlockValue">{value ? value : 0}</span>
             }
-            { closeBtn }
         </div>
     );
   },
@@ -81,4 +83,4 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
   [0]
 );
 
-export const funcChoiceTree = [logoAddFunctionFactory, logoConstantFunctionFactory];
+export const funcChoiceTree = [logoAddFunction, logoConstantFunction];

@@ -23,6 +23,11 @@ code {
   position: relative;
 }
 
+.LECBlockValue:hover
+{
+  background-color: lightblue;
+}
+
 .LECBlock form
 {
   display: inherit;
