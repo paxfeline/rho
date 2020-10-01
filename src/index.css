@@ -21,9 +21,14 @@ code {
   border: 1px solid black;
 }
 
-.LECblock form
+.LECBlock form
 {
   display: inherit;
+}
+
+.LECBlockValue:hover
+{
+  background-color: pink;
 }
 
 .LECCloseBtn

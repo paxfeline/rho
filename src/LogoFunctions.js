@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 export const createLogoFunctionFactory = function ( render, execute, name, defaultArguments )
 {
@@ -42,6 +42,14 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
     const [ value, setValue ] = useState( args[0] );
     const [ editing, setEditing ] = useState( false );
 
+    const infield = useRef();
+
+    useEffect( () => {
+        if ( editing )
+            infield.current.focus();
+    },
+    [ editing ] );
+
     const processInput = e =>
     {
         if ( e.key === 'Enter' )
@@ -53,16 +61,16 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
 
     return (
         <div className="LECblock">
-        {
-            editing
-            ?
-                <input className="LECTextInput" onKeyDown={ processInput } />
-            :
-                <div className="LECblock" onClick={ () => setEditing(true) }>
-                    { value }
-                    { closeBtn }
-                </div>
-        }
+            <div className="LECBlock" onClick={ () => setEditing(true) }>
+                {
+                    editing
+                    ?
+                        <input ref={infield} className="LECTextInput" onKeyDown={ processInput } />
+                    :
+                        <span className="LECBlockValue">{value}</span>
+                }
+                { closeBtn }
+            </div>
         </div>
     );
   },
