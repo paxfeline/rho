@@ -35,7 +35,7 @@ code {
 
 .LECBlock select
 {
-  width: 3em;
+  width: 3.5em;
   height: 2.5em;
 }
 
@@ -56,5 +56,5 @@ code {
 
 .LECTextInput
 {
-  width: 3em;
+  width: 2em;
 }
