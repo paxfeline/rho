@@ -14,11 +14,13 @@ code {
 
 /***** logo */
 
-.LECblock
+.LECBlock
 {
   display: inline-block;
   padding: 0.5em;
+  padding-right: 1em;
   border: 1px solid black;
+  position: relative;
 }
 
 .LECBlock form
@@ -26,21 +28,19 @@ code {
   display: inherit;
 }
 
-.LECBlockValue:hover
-{
-  background-color: pink;
-}
-
 .LECCloseBtn
 {
-  display: inline-block;
+  display: block;
   font-weight: bold;
-  vertical-align: super;
   font-size: 0.75em;
   background-color: red;
   border-radius: 50%;
   width: 1em;
   text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.2em;
 }
 
 .LECTextInput

@@ -24,9 +24,10 @@ export const logoAddFunctionFactory = createLogoFunctionFactory(
   function ( { LECCallback, args, closeBtn } )
   {
     return (
-      <div className="LECblock"> { <LECCallback /> } + { <LECCallback /> } 
-      {closeBtn}
-      </div>
+        <React.Fragment>
+            <LECCallback /> + <LECCallback />
+            {closeBtn}
+        </React.Fragment>
     );
   },
   function ( a, b )
@@ -60,17 +61,15 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
     }
 
     return (
-        <div className="LECblock">
-            <div className="LECBlock" onClick={ () => setEditing(true) }>
-                {
-                    editing
-                    ?
-                        <input ref={infield} className="LECTextInput" onKeyDown={ processInput } />
-                    :
-                        <span className="LECBlockValue">{value}</span>
-                }
-                { closeBtn }
-            </div>
+        <div onClick={ () => setEditing(true) }>
+            {
+                editing
+                ?
+                    <input ref={infield} className="LECTextInput" onKeyDown={ processInput } />
+                :
+                    <span className="LECBlockValue">{value}</span>
+            }
+            { closeBtn }
         </div>
     );
   },
