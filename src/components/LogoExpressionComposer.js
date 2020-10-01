@@ -12,7 +12,7 @@ function LogoExpressionComposer( props )
         ?
             <form onChange={ e => setLogoFunc( funcChoiceTree.find( f => f.logoName == e.target.value ) ) }>
                 <select>
-                    <option>select...</option>
+                    <option>...</option>
                     {
                         funcChoiceTree.map(
                             lf => <option value={ lf.logoName }>{ lf.logoName }</option>
@@ -24,13 +24,13 @@ function LogoExpressionComposer( props )
             <div className="LECBlock" ref={block}>
                 <logoFunc.render
                     LECCallback={ LogoExpressionComposer }
-                    args={ logoFunc.args } />
+                    args={ logoFunc.args /* should be 'defaults' instead */ } />
                 <div
-                        className="LECCloseBtn"
-                        onClick={ () => setLogoFunc( null ) }
-                        onMouseOver={ () => block.current.style.background = 'pink' }
-                        onMouseOut={ () => block.current.style.background = 'initial' }
-                    >X</div>
+                    className="LECCloseBtn"
+                    onClick={ () => setLogoFunc( null ) }
+                    onMouseOver={ () => block.current.style.background = 'pink' }
+                    onMouseOut={ () => block.current.style.background = 'initial' }
+                >X</div>
             </div>
     );
 }

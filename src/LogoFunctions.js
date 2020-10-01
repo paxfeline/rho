@@ -40,7 +40,7 @@ export const logoConstantFunction = createLogoFunction(
   function ( { LECCallback, args } )
   {
     const [ value, setValue ] = useState( args[0] );
-    const [ editing, setEditing ] = useState( false );
+    const [ editing, setEditing ] = useState( true );
 
     const infield = useRef();
 

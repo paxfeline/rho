@@ -33,6 +33,12 @@ code {
   display: inherit;
 }
 
+.LECBlock select
+{
+  width: 3em;
+  height: 2.5em;
+}
+
 .LECCloseBtn
 {
   display: block;
