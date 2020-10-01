@@ -26,6 +26,12 @@ function Logo( {  } )
 
     ctx.fillRect( 0, 0, canvasRef.current.offsetWidth, canvasRef.current.offsetHeight );
 
+    ctx.fillStyle = "white";
+
+    ctx.beginPath();
+    ctx.arc( canvasRef.current.offsetWidth / 2, canvasRef.current.offsetHeight / 2, 100, 0, Math.PI * 2 );
+    ctx.fill();
+
     console.log( canvasRef.current.offsetWidth, canvasRef.current.offsetHeight );
   }
 

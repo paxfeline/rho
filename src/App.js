@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import Logo from './components/logo.js';
+import Logo from './components/Logo';
+import LogoExpressionComposer from './components/LogoExpressionComposer';
 import './App.css';
 
-function createLogoFunctionFactory( render, execute )
+/*
+function createLogoFunctionFactory( render, execute, name )
 {
-  return (
-    function ( ...args ) // logo function
+  const funcFact =
+    function ( ...args ) // logo function factory
     {
       const func =
         function () // specific logo function
@@ -13,24 +15,29 @@ function createLogoFunctionFactory( render, execute )
           return execute.apply( null, func.args );
         };
       func.render = render;
+      func.logoName = name;
       func.setArguments = function ( ...args ) { func.args = args; } // different than 'args' from parent function
       func.setArguments( ...args ); // factory method initializes new object w/ default vals
       return func;
     }
-  );
+  funcFact.render = render;
+  funcFact.logoName = name;
+  funcFact.setArguments = function ( ...args ) { funcFact.args = args; } // different than 'args' from parent function
+  return funcFact;
 }
 
 const logoAddFunctionFactory = createLogoFunctionFactory(
-  function ( argumentCallback )
+  function ( paramTree )
   {
     return (
-      <div> { argumentCallback(0) } + { argumentCallback(1) } </div>
+      <div> { <LogoExpressionComposer paramTree={paramTree} index={0} /> } + { <LogoExpressionComposer paramTree={paramTree} index={1} /> } </div>
     );
   },
   function ( a, b )
   {
     return a() + b();
-  }
+  },
+  "add (operation)"
 );
 
 const logoConstantFunctionFactory = createLogoFunctionFactory(
@@ -44,7 +51,8 @@ const logoConstantFunctionFactory = createLogoFunctionFactory(
   function ( a )
   {
     return a;
-  }
+  },
+  "constant value"
 );
 
 const const5 = logoConstantFunctionFactory( 5 );
@@ -55,10 +63,10 @@ add1.setArguments( const2, const5 );
 console.log( add1(), "first" );
 
 const prog = [ add1 ];
+*/
 
 function RFC({depth = 0})
 {
-  debugger;
   return depth < 5 ?
     <div class={"depth" + depth}><RFC depth={depth + 1} /></div>
     : null;
@@ -67,11 +75,9 @@ function RFC({depth = 0})
 function App() {
   return (
     <div>
-      <RFC />
-      {
-        const5.render( n => n )
-      }
-      <Logo program={ prog } />
+      <LogoExpressionComposer />
+      {/*<RFC />
+      <Logo />*/}
     </div>
   );
 }

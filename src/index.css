@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/***** logo */
+
+.LECblock
+{
+  display: inline-block;
+  padding: 0.5em;
+  border: 1px solid black;
+}
+
+.LECblock form
+{
+  display: inherit;
+}
+
+.LECCloseBtn
+{
+  display: inline-block;
+  font-weight: bold;
+  vertical-align: super;
+  font-size: 0.75em;
+  background-color: red;
+  border-radius: 50%;
+  width: 1em;
+  text-align: center;
+}
+
+.LECTextInput
+{
+  width: 3em;
+}
