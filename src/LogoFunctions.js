@@ -1,6 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
 import LogoExpressionComposer from './components/LogoExpressionComposer';
 
+/* createLogoFunction is used to create logo functions.
+    The first three parameters are required, the fourth isn't.
+    render is a function that displays the function's composition
+    interface. It can return some JSX, or act as a full-fledged
+    functional component. Often, it will mainly just render
+    LogoExpressionComposer components.
+    The function takes a single parameter which is an object
+    whose fields are the props passed to the component:
+        logoFunc - the function
+        setFuncCallback - callback used by the LogoExpressionComposer
+            component (must be passed along)
+        path - used to locate the function in question in the 
+            expression tree
+    Notice that 
+    */
+
 export const createLogoFunction = function ( render, execute, name, defaultArguments )
 {
   const funcFact =
@@ -21,7 +37,7 @@ export const createLogoFunction = function ( render, execute, name, defaultArgum
 }
 
 export const logoAddFunction = createLogoFunction(
-  function ( { logoFunc, setFuncCallback, path, args } )
+  function ( { logoFunc, setFuncCallback, path } )
   {
     return (
         <React.Fragment>
@@ -39,7 +55,7 @@ export const logoAddFunction = createLogoFunction(
 );
 
 export const logoConstantFunction = createLogoFunction(
-    function ( { logoFunc, setFuncCallback, path, args } )
+    function ( { logoFunc, setFuncCallback, path } )
   {
     const [ editing, setEditing ] = useState( true );
 

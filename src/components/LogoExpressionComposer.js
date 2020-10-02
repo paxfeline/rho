@@ -1,8 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { funcChoiceTree } from '../LogoFunctions'
 
+/* This component displays a function selection menu at first.
+    Once a function is selected, this component then displays
+    its composition interface. The function's render method
+    can be treated as a component to do this.
+    
+    Rather than storing state information locally, the props
+    are used to get and set the function being represented by
+    this LogoExpressionComposer component.
+    logoFunc is the function.
+    setFuncCallback and path are used in order to set the function.
+    path tells the setFuncCallback where in the expression tree
+    this function goes.
+    
+    As sub-components are rendered deeper into the expression tree,
+    their paths get passed to them, calculated by taking the current
+    path and appending the appropriate index. Look at the render
+    method of a logo function to see an example. */
+
 function LogoExpressionComposer( { logoFunc, setFuncCallback, path } )
 {
+    // The block ref is used to turn the function's composition interface pink when the X is hovered over
     const block = useRef();
 
     console.log( logoFunc, logoFunc?.render, logoFunc?.args );
@@ -10,6 +29,8 @@ function LogoExpressionComposer( { logoFunc, setFuncCallback, path } )
     return (
         logoFunc === null || logoFunc === undefined
         ?
+            // if the function hasn't been set, display the selection menu
+            // onChange determine what function was selected and calls setFuncCallback
             <form onChange={ e => setFuncCallback( path, funcChoiceTree.find( f => f.logoName == e.target.value )() ) }>
                 <select>
                     <option>...</option>
@@ -21,12 +42,13 @@ function LogoExpressionComposer( { logoFunc, setFuncCallback, path } )
                 </select>
             </form>
         :
+            // if the function has been set, display its composition interface
             <div className="LECBlock" ref={block} path={path}>
                 <logoFunc.render
                     logoFunc={logoFunc}
                     setFuncCallback={setFuncCallback}
                     path={path}
-                    args={ logoFunc.args /* should be 'defaults' instead */ } />
+                    defaultArgs={ logoFunc.args } />
                 <div
                     className="LECCloseBtn"
                     onClick={ () => setFuncCallback( path, null ) }
