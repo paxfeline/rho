@@ -8,7 +8,7 @@ export const createLogoFunction = function ( render, execute, name, defaultArgum
     {
         const func = {};
         const args = func.args ? func.args : [];
-        func.execute = execute.bind( null, ...args );
+        func.execute = function () { return execute( ...this.args ); };
         func.render = render;
         func.setArguments = function ( ...args ) { func.args = args; } // different than 'args' from parent function
         func.args = [];
@@ -78,6 +78,7 @@ export const logoConstantFunction = createLogoFunction(
   },
   function ( args )
   {
+      console.log(this);
     return args;
   },
   "constant value",
