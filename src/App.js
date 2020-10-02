@@ -39,8 +39,10 @@ function App()
 
   return (
     <div>
+      Compose expression:<br />
       <LogoExpressionComposer logoFunc={logoFunc} setFuncCallback={setFromPath} path={[]} />
-      <input type="button" onClick={() => console.log( "!", logoFunc.execute() )} value="go" />
+      <br />
+      <input type="button" onClick={() => alert( logoFunc.execute() )} value="execute" />
       {/*<Logo />*/}
     </div>
   );
