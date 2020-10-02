@@ -3,6 +3,8 @@ import Logo from './components/Logo';
 import LogoExpressionComposer from './components/LogoExpressionComposer';
 import './App.css';
 
+export const SetFuncFromPathContext = React.createContext(null);
+
 function App()
 {
   const [logoFunc, setLogoFunc] = useState(null);
@@ -40,7 +42,9 @@ function App()
   return (
     <div>
       Compose expression:<br />
-      <LogoExpressionComposer logoFunc={logoFunc} setFuncCallback={setFromPath} path={[]} />
+      <SetFuncFromPathContext.Provider value={setFromPath}>
+        <LogoExpressionComposer logoFunc={logoFunc} path={[]} />
+      </SetFuncFromPathContext.Provider>
       <br />
       <input type="button" onClick={() => alert( logoFunc.execute() )} value="execute" />
       {/*<Logo />*/}

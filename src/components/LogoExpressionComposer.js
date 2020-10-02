@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { funcChoiceTree } from '../LogoFunctions'
+import { SetFuncFromPathContext } from '../App';
 
 /* This component displays a function selection menu at first.
     Once a function is selected, this component then displays
@@ -19,12 +20,14 @@ import { funcChoiceTree } from '../LogoFunctions'
     path and appending the appropriate index. Look at the render
     method of a logo function to see an example. */
 
-function LogoExpressionComposer( { logoFunc, setFuncCallback, path } )
+function LogoExpressionComposer( { logoFunc, path } )
 {
     // The block ref is used to turn the function's composition interface pink when the X is hovered over
     const block = useRef();
 
     console.log( logoFunc, logoFunc?.render, logoFunc?.args );
+
+    const setFuncCallback = useContext(SetFuncFromPathContext);
 
     return (
         logoFunc === null || logoFunc === undefined
