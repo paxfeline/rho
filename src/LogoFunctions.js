@@ -41,7 +41,6 @@ export const logoAddFunction = createLogoFunction(
 export const logoConstantFunction = createLogoFunction(
     function ( { logoFunc, setFuncCallback, path, args } )
   {
-    const [ value, setValue ] = useState( logoFunc.args[0] );
     const [ editing, setEditing ] = useState( true );
 
     const infield = useRef();
@@ -56,7 +55,7 @@ export const logoConstantFunction = createLogoFunction(
     {
         if ( e.key === 'Enter' )
         {
-            setValue( e.target.value );
+            setFuncCallback( [...path, 0], e.target.value );
             setEditing( false );
         }
         else if ( e.key === 'Escape' )
@@ -72,7 +71,7 @@ export const logoConstantFunction = createLogoFunction(
                 ?
                     <input ref={infield} className="LECTextInput" onKeyDown={ processInput } />
                 :
-                    <span className="LECBlockValue">{value ? value : 0}</span>
+                    <span className="LECBlockValue">{logoFunc.args[0] ? logoFunc.args[0] : 0}</span>
             }
         </div>
     );
