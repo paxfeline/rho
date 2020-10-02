@@ -33,7 +33,7 @@ export const logoAddFunction = createLogoFunction(
   },
   function ( a, b )
   {
-    return a() + b();
+    return a.execute() + b.execute();
   },
   "add (operation)",
 );
@@ -55,7 +55,7 @@ export const logoConstantFunction = createLogoFunction(
     {
         if ( e.key === 'Enter' )
         {
-            setFuncCallback( [...path, 0], e.target.value );
+            setFuncCallback( [...path, 0], Number(e.target.value) );
             setEditing( false );
         }
         else if ( e.key === 'Escape' )
