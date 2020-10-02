@@ -3,81 +3,44 @@ import Logo from './components/Logo';
 import LogoExpressionComposer from './components/LogoExpressionComposer';
 import './App.css';
 
-/*
-function createLogoFunctionFactory( render, execute, name )
+function App()
 {
-  const funcFact =
-    function ( ...args ) // logo function factory
+  const [logoFunc, setLogoFunc] = useState(null);
+
+  const setFromPath =
+    function ( path, logoFuncToSet )
     {
-      const func =
-        function () // specific logo function
+      if ( path.length === 0 )
+        setLogoFunc( logoFuncToSet );
+      else
+      {
+        // copy to new object
+        let root = { ...logoFunc };
+        let cf = root;
+        let prev = cf;
+
+        // follow to the penultimate link
+        for ( let i = 0; i < path.length - 1; i++ )
         {
-          return execute.apply( null, func.args );
-        };
-      func.render = render;
-      func.logoName = name;
-      func.setArguments = function ( ...args ) { func.args = args; } // different than 'args' from parent function
-      func.setArguments( ...args ); // factory method initializes new object w/ default vals
-      return func;
-    }
-  funcFact.render = render;
-  funcFact.logoName = name;
-  funcFact.setArguments = function ( ...args ) { funcFact.args = args; } // different than 'args' from parent function
-  return funcFact;
-}
+          let index = path[i];
+          // duplicate each link (so that all the corresponding components update)
+          cf = { ...cf.args[ index ] };
+          prev.args[ index ] = cf; // update prev links args
+          prev = cf;
+        }
 
-const logoAddFunctionFactory = createLogoFunctionFactory(
-  function ( paramTree )
-  {
-    return (
-      <div> { <LogoExpressionComposer paramTree={paramTree} index={0} /> } + { <LogoExpressionComposer paramTree={paramTree} index={1} /> } </div>
-    );
-  },
-  function ( a, b )
-  {
-    return a() + b();
-  },
-  "add (operation)"
-);
+        // set the last link
+        cf.args = [ ...cf.args ];
+        cf.args[ path[ path.length - 1 ] ] = logoFuncToSet;
 
-const logoConstantFunctionFactory = createLogoFunctionFactory(
-  function ( argumentCallback )
-  {
-    const [a,b]=useState( this.args[0] );
-    return (
-      <div onClick={()=>{const n = prompt(); b(n);}}> { a } </div>
-    );
-  },
-  function ( a )
-  {
-    return a;
-  },
-  "constant value"
-);
+        setLogoFunc( root );
+      }
+    };
 
-const const5 = logoConstantFunctionFactory( 5 );
-const const2 = logoConstantFunctionFactory( 2 );
-
-const add1 = logoAddFunctionFactory();
-add1.setArguments( const2, const5 );
-console.log( add1(), "first" );
-
-const prog = [ add1 ];
-*/
-
-function RFC({depth = 0})
-{
-  return depth < 5 ?
-    <div class={"depth" + depth}><RFC depth={depth + 1} /></div>
-    : null;
-}
-
-function App() {
   return (
     <div>
-      <LogoExpressionComposer />
-      {/*<RFC />
-      <Logo />*/}
+      <LogoExpressionComposer logoFunc={logoFunc} setFuncCallback={setFromPath} path={[]} />
+      {/*<Logo />*/}
     </div>
   );
 }

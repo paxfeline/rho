@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { funcChoiceTree } from '../LogoFunctions'
 
-function LogoExpressionComposer( props )
+function LogoExpressionComposer( { logoFunc, setFuncCallback, path } )
 {
-    const [logoFunc, setLogoFunc] = useState(null);
-
     const block = useRef();
 
+    console.log( logoFunc, logoFunc?.render, logoFunc?.args );
+
     return (
-        logoFunc === null
+        logoFunc === null || logoFunc === undefined
         ?
-            <form onChange={ e => setLogoFunc( funcChoiceTree.find( f => f.logoName == e.target.value ) ) }>
+            <form onChange={ e => setFuncCallback( path, funcChoiceTree.find( f => f.logoName == e.target.value )() ) }>
                 <select>
                     <option>...</option>
                     {
@@ -21,13 +21,15 @@ function LogoExpressionComposer( props )
                 </select>
             </form>
         :
-            <div className="LECBlock" ref={block}>
+            <div className="LECBlock" ref={block} path={path}>
                 <logoFunc.render
-                    LECCallback={ LogoExpressionComposer }
+                    logoFunc={logoFunc}
+                    setFuncCallback={setFuncCallback}
+                    path={path}
                     args={ logoFunc.args /* should be 'defaults' instead */ } />
                 <div
                     className="LECCloseBtn"
-                    onClick={ () => setLogoFunc( null ) }
+                    onClick={ () => setFuncCallback( path, null ) }
                     onMouseOver={ () => block.current.style.background = 'pink' }
                     onMouseOut={ () => block.current.style.background = 'initial' }
                 >X</div>
