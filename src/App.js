@@ -10,9 +10,9 @@ function App()
   const [logoFunc, setLogoFunc] = useState(null);
 
   /* setFunctionFromPath takes a path (down a tree structure),
-    and a value to set. It traverses the tree until it reaches
+    and a value to set. It traverses the tree until it finds
     the leaf specified by the path, and then sets the specified
-    argument to the given value.
+    leaf to the given value.
     The tree in question is composed of functions, and the children
     of each node are the arguments of the given function. */
   const setFunctionFromPath =
