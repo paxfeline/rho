@@ -9,9 +9,17 @@ function App()
 {
   const [logoFunc, setLogoFunc] = useState(null);
 
-  const setFromPath =
+  /* setFunctionFromPath takes a path (down a tree structure),
+    and a value to set. It traverses the tree until it reaches
+    the leaf specified by the path, and then sets the specified
+    argument to the given value.
+    The tree in question is composed of functions, and the children
+    of each node are the arguments of the given function. */
+  const setFunctionFromPath =
     function ( path, logoFuncToSet )
     {
+      // empty path means update the root function
+      // (in that case, stored in this component's state)
       if ( path.length === 0 )
         setLogoFunc( logoFuncToSet );
       else
@@ -35,6 +43,7 @@ function App()
         cf.args = [ ...cf.args ];
         cf.args[ path[ path.length - 1 ] ] = logoFuncToSet;
 
+        // once the new expression tree has been created, update the root function
         setLogoFunc( root );
       }
     };
@@ -42,7 +51,7 @@ function App()
   return (
     <div>
       Compose expression:<br />
-      <SetFuncFromPathContext.Provider value={setFromPath}>
+      <SetFuncFromPathContext.Provider value={setFunctionFromPath}>
         <LogoExpressionComposer logoFunc={logoFunc} path={[]} />
       </SetFuncFromPathContext.Provider>
       <br />

@@ -38,11 +38,10 @@ export const createLogoFunctionFactory = function ( render, execute, name, defau
   return funcFact;
 }
 
-/* create an add function factory.
+/* create an "addition operation" function factory.
     The render method will display the function composition interface.
-    It acts as a functional component, and uses some local state
-    variables to help with editing.
-    The execute function performs the function. */
+    It's just returning some JSX (a simple functional component).
+    The execute function performs the operation (addition). */
 
 export const logoAddFunctionFactory = createLogoFunctionFactory(
   function ( { logoFunc, path } )
@@ -62,11 +61,21 @@ export const logoAddFunctionFactory = createLogoFunctionFactory(
   "add (operation)",
 );
 
+/* create a "constant function" factory.
+    The render method will display the function composition interface.
+    It acts as a functional component, and uses some local state
+    variables to help with editing.
+    It has one argument, which is the value it should return.
+    (In a sense it is f(x) = x, but x is relatively constant.
+    f(x) = C is the closer mathematical analogy.)
+    The execute function performs the function (returns the constant). */
+
 export const logoConstantFunctionFactory = createLogoFunctionFactory(
   function ( { logoFunc, path } )
   {
     const setFuncCallback = useContext(SetFuncFromPathContext);
 
+    // start out in the editing = true state
     const [ editing, setEditing ] = useState( true );
 
     const infield = useRef();
@@ -81,6 +90,7 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
     {
         if ( e.key === 'Enter' )
         {
+            // the "constant" value returned by this function is technically an argument passed to it
             setFuncCallback( [...path, 0], Number(e.target.value) );
             setEditing( false );
         }
@@ -108,7 +118,7 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
     return args;
   },
   "constant value",
-  [0]
+  [0] // default value
 );
 
 export const funcChoiceTree = [logoAddFunctionFactory, logoConstantFunctionFactory];
