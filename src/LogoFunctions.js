@@ -19,15 +19,16 @@ import { SetFuncFromPathContext } from './App';
     a modified path, corresponding to their positions as arguments
     of the logo function it represents. */
 
-export const createLogoFunctionFactory = function ( render, execute, name, defaultArguments )
+export const createLogoFunctionFactory = function ( render, execute, display, name, defaultArguments )
 {
   const funcFact =
     function () // logo function factory
     {
         const func = {};
         const args = func.args ? func.args : [];
-        func.execute = function () { return execute( ...this.args ); };
         func.render = render;
+        func.execute = function () { return execute( ...this.args ); };
+        func.display = function () { return display( ...this.args ) };
         func.setArguments = function ( ...args ) { func.args = args; } // different than 'args' from parent function
         func.args = [];
         if (defaultArguments)
@@ -57,6 +58,10 @@ export const logoAddFunctionFactory = createLogoFunctionFactory(
   function ( a, b )
   {
     return a.execute() + b.execute();
+  },
+  function ( a, b )
+  {
+    return `(${a ? a.display() : '(undefined)'} + ${b ? b.display() : '(undefined)'})`;
   },
   "add (operation)",
 );
@@ -112,10 +117,14 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
         </div>
     );
   },
-  function ( args )
+  function ( val )
   {
       console.log(this);
-    return args;
+    return val;
+  },
+  function ( val )
+  {
+    return `${val}`;
   },
   "constant value",
   [0] // default value

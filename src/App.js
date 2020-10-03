@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from './components/Logo';
 import LogoExpressionComposer from './components/LogoExpressionComposer';
 import './App.css';
@@ -56,6 +56,9 @@ function App()
       </SetFuncFromPathContext.Provider>
       <br />
       <input type="button" onClick={() => alert( logoFunc.execute() )} value="execute" />
+      <div>
+        {logoFunc ? logoFunc.display() : null}
+      </div>
       {/*<Logo />*/}
     </div>
   );
