@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import LogoExpressionComposer from './components/LogoExpressionComposer';
+import { SetFuncFromPathContext } from './App';
 
 /* createLogoFunction is used to create logo functions.
     The first three parameters are required, the fourth isn't.
@@ -14,10 +15,11 @@ import LogoExpressionComposer from './components/LogoExpressionComposer';
             component (must be passed along)
         path - used to locate the function in question in the 
             expression tree
-    Notice that 
-    */
+    Notice that child LogoExpressionComposer components are passed
+    a modified path, corresponding to their positions as arguments
+    of the logo function it represents. */
 
-export const createLogoFunction = function ( render, execute, name, defaultArguments )
+export const createLogoFunctionFactory = function ( render, execute, name, defaultArguments )
 {
   const funcFact =
     function () // logo function factory
@@ -36,14 +38,20 @@ export const createLogoFunction = function ( render, execute, name, defaultArgum
   return funcFact;
 }
 
-export const logoAddFunction = createLogoFunction(
-  function ( { logoFunc, setFuncCallback, path } )
+/* create an add function factory.
+    The render method will display the function composition interface.
+    It acts as a functional component, and uses some local state
+    variables to help with editing.
+    The execute function performs the function. */
+
+export const logoAddFunctionFactory = createLogoFunctionFactory(
+  function ( { logoFunc, path } )
   {
     return (
         <React.Fragment>
-            <LogoExpressionComposer logoFunc={logoFunc.args[0]} setFuncCallback={setFuncCallback} path={[...path, 0]} />
+            <LogoExpressionComposer logoFunc={logoFunc.args[0]} path={[...path, 0]} />
             +
-            <LogoExpressionComposer logoFunc={logoFunc.args[1]} setFuncCallback={setFuncCallback} path={[...path, 1]} />
+            <LogoExpressionComposer logoFunc={logoFunc.args[1]} path={[...path, 1]} />
         </React.Fragment>
     );
   },
@@ -54,9 +62,11 @@ export const logoAddFunction = createLogoFunction(
   "add (operation)",
 );
 
-export const logoConstantFunction = createLogoFunction(
-    function ( { logoFunc, setFuncCallback, path } )
+export const logoConstantFunctionFactory = createLogoFunctionFactory(
+  function ( { logoFunc, path } )
   {
+    const setFuncCallback = useContext(SetFuncFromPathContext);
+
     const [ editing, setEditing ] = useState( true );
 
     const infield = useRef();
@@ -101,4 +111,4 @@ export const logoConstantFunction = createLogoFunction(
   [0]
 );
 
-export const funcChoiceTree = [logoAddFunction, logoConstantFunction];
+export const funcChoiceTree = [logoAddFunctionFactory, logoConstantFunctionFactory];

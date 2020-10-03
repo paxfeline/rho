@@ -46,10 +46,12 @@ function LogoExpressionComposer( { logoFunc, path } )
             </form>
         :
             // if the function has been set, display its composition interface
+            // default args are only used for certain functions (like constants).
+            // the next div is an X button which will reset this LEC's function to null
+            // (which will re-display the selection interface (above))
             <div className="LECBlock" ref={block} path={path}>
                 <logoFunc.render
                     logoFunc={logoFunc}
-                    setFuncCallback={setFuncCallback}
                     path={path}
                     defaultArgs={ logoFunc.args } />
                 <div
