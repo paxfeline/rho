@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Logo from './components/Logo';
-import LogoExpressionComposer from './components/LogoExpressionComposer';
+import Turtle from './components/Turtle';
+import RhoExpressionComposer from './components/RhoExpressionComposer';
 import './App.css';
 
 export const SetFuncFromPathContext = React.createContext(null);
 
 function App()
 {
-  const [logoFunc, setLogoFunc] = useState(null);
+  const [rhoFunc, setRhoFunc] = useState(null);
 
   /* setFunctionFromPath takes a path (down a tree structure),
     and a value to set. It traverses the tree until it finds
@@ -16,16 +16,16 @@ function App()
     The tree in question is composed of functions, and the children
     of each node are the arguments of the given function. */
   const setFunctionFromPath =
-    function ( path, logoFuncToSet )
+    function ( path, rhoFuncToSet )
     {
       // empty path means update the root function
       // (in that case, stored in this component's state)
       if ( path.length === 0 )
-        setLogoFunc( logoFuncToSet );
+        setRhoFunc( rhoFuncToSet );
       else
       {
         // copy to new object
-        let root = { ...logoFunc };
+        let root = { ...rhoFunc };
         let cf = root;
         let prev = cf;
 
@@ -41,10 +41,10 @@ function App()
 
         // set the last link
         cf.args = [ ...cf.args ];
-        cf.args[ path[ path.length - 1 ] ] = logoFuncToSet;
+        cf.args[ path[ path.length - 1 ] ] = rhoFuncToSet;
 
         // once the new expression tree has been created, update the root function
-        setLogoFunc( root );
+        setRhoFunc( root );
       }
     };
 
@@ -52,14 +52,14 @@ function App()
     <div>
       Compose expression:<br />
       <SetFuncFromPathContext.Provider value={setFunctionFromPath}>
-        <LogoExpressionComposer logoFunc={logoFunc} path={[]} />
+        <RhoExpressionComposer rhoFunc={rhoFunc} path={[]} />
       </SetFuncFromPathContext.Provider>
       <br />
-      <input type="button" onClick={() => alert( logoFunc.execute() )} value="execute" />
+      <input type="button" onClick={() => alert( rhoFunc.execute() )} value="execute" />
       <div>
-        {logoFunc ? logoFunc.display() : null}
+        {rhoFunc ? rhoFunc.display() : null}
       </div>
-      {/*<Logo />*/}
+      {/*<Turtle />*/}
     </div>
   );
 }

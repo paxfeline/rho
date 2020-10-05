@@ -1,28 +1,28 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import LogoExpressionComposer from './components/LogoExpressionComposer';
+import RhoExpressionComposer from './components/RhoExpressionComposer';
 import { SetFuncFromPathContext } from './App';
 
-/* createLogoFunction is used to create logo functions.
+/* createRhoFunction is used to create rho functions.
     The first three parameters are required, the fourth isn't.
     render is a function that displays the function's composition
     interface. It can return some JSX, or act as a full-fledged
     functional component. Often, it will mainly just render
-    LogoExpressionComposer components.
+    RhoExpressionComposer components.
     The function takes a single parameter which is an object
     whose fields are the props passed to the component:
-        logoFunc - the function
-        setFuncCallback - callback used by the LogoExpressionComposer
+        rhoFunc - the function
+        setFuncCallback - callback used by the RhoExpressionComposer
             component (must be passed along)
         path - used to locate the function in question in the 
             expression tree
-    Notice that child LogoExpressionComposer components are passed
+    Notice that child RhoExpressionComposer components are passed
     a modified path, corresponding to their positions as arguments
-    of the logo function it represents. */
+    of the rho function it represents. */
 
-export const createLogoFunctionFactory = function ( render, execute, display, name, defaultArguments )
+export const createRhoFunctionFactory = function ( render, execute, display, name, defaultArguments )
 {
   const funcFact =
-    function () // logo function factory
+    function () // rho function factory
     {
         const func = {};
         const args = func.args ? func.args : [];
@@ -35,7 +35,7 @@ export const createLogoFunctionFactory = function ( render, execute, display, na
             func.setArguments( ...defaultArguments ); // factory method initializes new object w/ default vals
         return func;
     }
-  funcFact.logoName = name;
+  funcFact.rhoName = name;
   return funcFact;
 }
 
@@ -44,14 +44,14 @@ export const createLogoFunctionFactory = function ( render, execute, display, na
     It's just returning some JSX (a simple functional component).
     The execute function performs the operation (addition). */
 
-export const logoAddFunctionFactory = createLogoFunctionFactory(
-  function ( { logoFunc, path } )
+export const rhoAddFunctionFactory = createRhoFunctionFactory(
+  function ( { rhoFunc, path } )
   {
     return (
         <React.Fragment>
-            <LogoExpressionComposer logoFunc={logoFunc.args[0]} path={[...path, 0]} />
+            <RhoExpressionComposer rhoFunc={rhoFunc.args[0]} path={[...path, 0]} />
             +
-            <LogoExpressionComposer logoFunc={logoFunc.args[1]} path={[...path, 1]} />
+            <RhoExpressionComposer rhoFunc={rhoFunc.args[1]} path={[...path, 1]} />
         </React.Fragment>
     );
   },
@@ -75,8 +75,8 @@ export const logoAddFunctionFactory = createLogoFunctionFactory(
     f(x) = C is the closer mathematical analogy.)
     The execute function performs the function (returns the constant). */
 
-export const logoConstantFunctionFactory = createLogoFunctionFactory(
-  function ( { logoFunc, path } )
+export const rhoConstantFunctionFactory = createRhoFunctionFactory(
+  function ( { rhoFunc, path } )
   {
     const setFuncCallback = useContext(SetFuncFromPathContext);
 
@@ -112,7 +112,7 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
                 ?
                     <input ref={infield} className="LECTextInput" onKeyDown={ processInput } />
                 :
-                    <span className="LECBlockValue">{logoFunc.args[0] ? logoFunc.args[0] : 0}</span>
+                    <span className="LECBlockValue">{rhoFunc.args[0] ? rhoFunc.args[0] : 0}</span>
             }
         </div>
     );
@@ -130,4 +130,4 @@ export const logoConstantFunctionFactory = createLogoFunctionFactory(
   [0] // default value
 );
 
-export const funcChoiceTree = [logoAddFunctionFactory, logoConstantFunctionFactory];
+export const funcChoiceTree = [rhoAddFunctionFactory, rhoConstantFunctionFactory];

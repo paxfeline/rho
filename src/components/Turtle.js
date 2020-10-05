@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function Logo( {  } )
+function Turtle( {  } )
 {
   const [turtleLocation, setTurtleLocation] = useState( {x: 0, y: 0} );
   const [turtleHeading, setTurtleHeading] = useState( 0 );
@@ -42,4 +42,4 @@ function Logo( {  } )
   );
 }
 
-export default Logo;
+export default Turtle;
