@@ -58,3 +58,86 @@ code {
 {
   width: 2em;
 }
+
+/* statement console */
+
+.container {
+  position: relative;
+  display: inline-block;
+  transform: rotate(45deg);
+}
+
+.row {
+  line-height: 0;
+}
+
+.ostar {
+	width: 10em;
+  height: 10em;
+  background: black;
+  position: relative;
+  display: inline-block;
+  border: 0.25em solid grey;
+}
+
+.first {
+  border-radius: 100% 0 0 0;
+  border-width: 0.5em 0.25em 0.25em 0.5em;
+}
+
+.second {
+  border-radius: 0 100% 0 0;
+  border-width: 0.5em 0.5em 0.25em 0.25em;
+}
+
+.third {
+  border-radius: 0 0 0 100%;
+  border-width: 0.25em 0.25em 0.5em 0.5em;
+}
+
+.fourth {
+  border-radius: 0 0 100% 0;
+  border-width: 0.25em 0.5em 0.5em 0.25em;
+  background: blue;
+}
+
+.inner {
+  width: 25%;
+  height: 25%;
+  position: absolute;
+  background: black;
+  box-sizing: border-box;
+  border: 0.25em solid grey;
+}
+
+.inner-top {
+  top: 30%;
+  left: 30%;
+  width: 40%;
+  height: 20%;
+  position: absolute;
+  background: red;
+  box-sizing: border-box;
+  border: 0.25em solid grey;
+  border-width: 0.5em 0.5em 0.25em 0.5em;
+  border-top-left-radius: 10em;
+  border-top-right-radius: 10em;
+  transform: rotate(-45deg);
+  transform-origin: bottom center;
+}
+
+.inner-bottom {
+  top: 50%;
+  left: 30%;
+  width: 40%;
+  height: 20%;
+  position: absolute;
+  background: red;
+  box-sizing: border-box;
+  border: 0.25em solid grey;
+  border-width: 0.25em 0.5em 0.5em 0.5em;
+  border-bottom-left-radius: 10em;
+  border-bottom-right-radius: 10em;
+  transform: rotate(-45deg);
+  transform-origin: top center;
+}

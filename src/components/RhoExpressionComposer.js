@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { funcChoiceTree } from '../RhoFunctions'
-import { SetFuncFromPathContext } from '../App';
+import { funcChoiceTree } from '../utils/RhoFunctions'
+import { SetFuncFromPathContext } from './RhoStatementConsole';
 
 /* This component displays a function selection menu at first.
     Once a function is selected, this component then displays

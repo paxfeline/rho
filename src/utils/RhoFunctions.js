@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import RhoExpressionComposer from './components/RhoExpressionComposer';
-import { SetFuncFromPathContext } from './App';
+import RhoExpressionComposer from '../components/RhoExpressionComposer';
+import { SetFuncFromPathContext } from '../components/RhoStatementConsole';
 
 /* createRhoFunction is used to create rho functions.
     The first three parameters are required, the fourth isn't.
@@ -119,7 +119,6 @@ export const rhoConstantFunctionFactory = createRhoFunctionFactory(
   },
   function ( val )
   {
-      console.log(this);
     return val;
   },
   function ( val )
@@ -129,5 +128,33 @@ export const rhoConstantFunctionFactory = createRhoFunctionFactory(
   "constant value",
   [0] // default value
 );
+
+/**/
+
+export const rhoForwardFunctionFactory = createRhoFunctionFactory(
+  function ( { rhoFunc, path } )
+  {
+    return (
+      <React.Fragment>
+        Forward: <RhoExpressionComposer rhoFunc={rhoFunc.args[0]} path={[...path, 0]} />
+      </React.Fragment>
+    );
+  },
+  function ( val )
+  {
+    // actually go forward
+    return val.execute();
+  },
+  function ( val )
+  {
+    return `fd ${val ? val.display() : "(undefined)"}`;
+  },
+  "move forward",
+);
+
+export const statementTree =
+  {
+    forwardFactory: rhoForwardFunctionFactory,
+  };
 
 export const funcChoiceTree = [rhoAddFunctionFactory, rhoConstantFunctionFactory];
