@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { statementTree } from '../utils/RhoFunctions'
+import { statementTree, rhoConstantFunctionFactory } from '../utils/RhoFunctions'
 import RhoExpressionComposer from './RhoExpressionComposer';
+import RhoSimpleConstant from './RhoSimpleConstant';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
+let uid = 0;
+
+function uidGenerator()
+{    
+    return (++uid);
+}
 
 export const SetFuncFromPathContext = React.createContext(null);
 
@@ -9,6 +19,8 @@ function RhoStatementConsole( {} )
     const [cmdMode, setCmdMode] = useState(1); // 1 = fd/bk/rt/lt/pu/pd, 2 = the rest
     const [inputMode, setInputMode] = useState(1); // 1 = constant, 2 = expression
     const [rhoFunc, setRhoFunc] = useState(null);
+
+    const [key, setKey] = useState( uidGenerator() );
 
     /* setFunctionFromPath takes a path (down a tree structure),
     and a value to set. It traverses the tree until it finds
@@ -28,31 +40,62 @@ function RhoStatementConsole( {} )
             // empty path means update the root function
             // (in that case, stored in this component's state)
             if ( path.length === 0 )
-            setRhoFunc( rhoFuncToSet );
+                setRhoFunc( rhoFuncToSet );
             else
             {
-            // copy to new object
-            let root = { ...rhoFunc };
-            let cf = root;
-            let prev = cf;
+                // copy to new object
+                let root = { ...rhoFunc };
+                let cf = root;
+                let prev = cf;
 
-            // follow to the penultimate link
-            for ( let i = 0; i < path.length - 1; i++ )
-            {
-                let index = path[i];
-                // duplicate each link (so that all the corresponding components update)
-                cf = { ...cf.args[ index ] };
-                prev.args[ index ] = cf; // update prev links args
-                prev = cf;
+                // follow to the penultimate link
+                for ( let i = 0; i < path.length - 1; i++ )
+                {
+                    let index = path[i];
+                    // duplicate each link (so that all the corresponding components update)
+                    cf = { ...cf.args[ index ] };
+                    prev.args[ index ] = cf; // update prev links args
+                    prev = cf;
+                }
+
+                // set the last link
+                cf.args = [ ...cf.args ];
+                cf.args[ path[ path.length - 1 ] ] = rhoFuncToSet;
+
+                /*
+                function duplicateChildren( func )
+                {
+                    for ( let i in func.args )
+                    {
+                        if ( func.args[ i ] instanceof Object )
+                        {
+                            func.args[ i ] =  { ...func.args[ i ] };
+                            duplicateChildren( func.args[ i ] );
+                        }
+                    }
+                }
+
+                duplicateChildren( rhoFuncToSet );
+                */
+
+                // once the new expression tree has been created, update the root function
+                setRhoFunc( root );
             }
+        };
+    
+        /*
+    useEffect(
+        () =>
+        {
+            if ( rhoFunc && !rhoFunc.args[0] )
+                setFunctionFromPath( [0], rhoConstantFunctionFactory() );
+        }, [rhoFunc] );
+        */
+    
+    const tabCallback =
+        index =>
+        {
 
-            // set the last link
-            cf.args = [ ...cf.args ];
-            cf.args[ path[ path.length - 1 ] ] = rhoFuncToSet;
-
-            // once the new expression tree has been created, update the root function
-            setRhoFunc( root );
-            }
         };
 
     return (
@@ -60,7 +103,14 @@ function RhoStatementConsole( {} )
             <div class="container">
 
                 <div class="row">
-                    <div class="ostar first" onClick={ ()=> setRhoFunc( statementTree.forwardFactory() ) }></div>
+                    <div class="ostar first"
+                        onClick={
+                            ()=> {
+                                const fwdFunc = statementTree.forwardFactory();
+                                fwdFunc.args[0] = rhoConstantFunctionFactory()
+                                setRhoFunc( fwdFunc );
+                                //setKey( uidGenerator() );
+                            } }></div>
                     <div class="ostar second"></div>
                     </div>
                 <div class="row">
@@ -76,16 +126,28 @@ function RhoStatementConsole( {} )
             <br />
 
             <SetFuncFromPathContext.Provider value={setFunctionFromPath}>
-                {
-                    rhoFunc
-                    ?
-                        <RhoExpressionComposer rhoFunc={rhoFunc.args[0]} path={[0]} />
-                    :
-                        null
-                }
-                <br />
-                {rhoFunc ? rhoFunc.display() : null}
+            {
+                rhoFunc
+                ?
+                    <Tabs onSelect={ index => tabCallback( index ) }>
+                        <TabList>
+                            <Tab>CONST</Tab>
+                            <Tab>EXPR</Tab>
+                        </TabList>
+                        <TabPanel>
+                            <RhoSimpleConstant rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
+                        </TabPanel>
+                        <TabPanel>
+                            <RhoExpressionComposer rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
+                        </TabPanel>
+                    </Tabs>
+                :
+                    null
+            }
             </SetFuncFromPathContext.Provider>
+
+            <br />
+            {rhoFunc ? rhoFunc.display() : null}
         </div>
     )
 }

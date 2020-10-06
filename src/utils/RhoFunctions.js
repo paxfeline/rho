@@ -126,7 +126,7 @@ export const rhoConstantFunctionFactory = createRhoFunctionFactory(
     return `${val}`;
   },
   "constant value",
-  [0] // default value
+  [50] // default value
 );
 
 /**/
