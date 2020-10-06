@@ -97,6 +97,8 @@ function RhoStatementConsole( {} )
         {
 
         };
+    
+        console.log( rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName );
 
     return (
         <div>
@@ -131,7 +133,7 @@ function RhoStatementConsole( {} )
                 ?
                     <Tabs onSelect={ index => tabCallback( index ) }>
                         <TabList>
-                            <Tab>CONST</Tab>
+                            <Tab disabled={ !(rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName === 'constant value') }>CONST</Tab>
                             <Tab>EXPR</Tab>
                         </TabList>
                         <TabPanel>

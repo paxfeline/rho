@@ -31,6 +31,7 @@ export const createRhoFunctionFactory = function ( render, execute, display, nam
         func.display = function () { return display( ...this.args ) };
         func.setArguments = function ( ...args ) { func.args = args; } // different than 'args' from parent function
         func.args = [];
+        func.rhoName = name;
         if (defaultArguments)
             func.setArguments( ...defaultArguments ); // factory method initializes new object w/ default vals
         return func;
@@ -110,7 +111,7 @@ export const rhoConstantFunctionFactory = createRhoFunctionFactory(
             {
                 editing
                 ?
-                    <input ref={infield} className="LECTextInput" onKeyDown={ processInput } />
+                    <input ref={infield} className="LECTextInput" onKeyDown={ processInput } defaultValue={rhoFunc.args[0] ? rhoFunc.args[0] : 0} />
                 :
                     <span className="LECBlockValue">{rhoFunc.args[0] ? rhoFunc.args[0] : 0}</span>
             }
