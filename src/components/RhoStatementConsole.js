@@ -3,7 +3,7 @@ import { statementTree, rhoConstantFunctionFactory } from '../utils/RhoFunctions
 import RhoExpressionComposer from './RhoExpressionComposer';
 import RhoSimpleConstant from './RhoSimpleConstant';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+//import 'react-tabs/style/react-tabs.css';
 
 let uid = 0;
 
@@ -92,64 +92,78 @@ function RhoStatementConsole( {} )
         }, [rhoFunc] );
         */
     
-    const tabCallback =
-        index =>
-        {
-
-        };
-    
         console.log( rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName );
 
     return (
-        <div>
-            <div class="container">
+        <div class="RhoStatementConsoleContainer">
+            <div class="RhoStatementConsoleLeft">
+                <Tabs>
+                    <TabPanel>
+                        <div class="container">
 
-                <div class="row">
-                    <div class="ostar first"
-                        onClick={
-                            ()=> {
-                                const fwdFunc = statementTree.forwardFactory();
-                                fwdFunc.args[0] = rhoConstantFunctionFactory()
-                                setRhoFunc( fwdFunc );
-                                //setKey( uidGenerator() );
-                            } }></div>
-                    <div class="ostar second"></div>
-                    </div>
-                <div class="row">
-                    <div class="ostar third"></div>
-                    <div class="ostar fourth"></div>
-                </div>
+                            <div class="row">
+                                <div class={`ostar first ${rhoFunc && rhoFunc.rhoName === 'move forward' ? 'bgblue' : ''}`}
+                                    onClick={
+                                        ()=> {
+                                            const fwdFunc = statementTree.forwardFactory();
+                                            fwdFunc.args[0] = rhoConstantFunctionFactory()
+                                            setRhoFunc( fwdFunc );
+                                            //setKey( uidGenerator() );
+                                        } }></div>
+                                <div class="ostar second"></div>
+                                </div>
+                            <div class="row">
+                                <div class="ostar third"></div>
+                                <div class="ostar fourth"></div>
+                            </div>
 
-                <div class="inner-top"></div>
-                <div class="inner-bottom"></div>
+                            <div class="inner-top"></div>
+                            <div class="inner-bottom"></div>
 
+                        </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <div style={{height: '20em'}}>
+                            MODE B
+                        </div>
+                    </TabPanel>
+                    <TabList id="mode_list">
+                        <Tab>MODE A</Tab>
+                        <Tab>MODE B</Tab>
+                    </TabList>
+                </Tabs>
             </div>
 
-            <br />
+            <div class="RhoStatementConsoleRight1">
+                {rhoFunc ? rhoFunc.display() : null}
+            </div>
 
-            <SetFuncFromPathContext.Provider value={setFunctionFromPath}>
-            {
-                rhoFunc
-                ?
-                    <Tabs onSelect={ index => tabCallback( index ) }>
-                        <TabList>
-                            <Tab disabled={ !(rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName === 'constant value') }>CONST</Tab>
-                            <Tab>EXPR</Tab>
-                        </TabList>
-                        <TabPanel>
-                            <RhoSimpleConstant rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
-                        </TabPanel>
-                        <TabPanel>
-                            <RhoExpressionComposer rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
-                        </TabPanel>
-                    </Tabs>
-                :
-                    null
-            }
-            </SetFuncFromPathContext.Provider>
-
-            <br />
-            {rhoFunc ? rhoFunc.display() : null}
+            <div class="RhoStatementConsoleRight2">
+                <SetFuncFromPathContext.Provider value={setFunctionFromPath}>
+                {
+                    rhoFunc
+                    ?
+                        <Tabs>
+                            <TabPanel>
+                                <div id='statement_expression'>
+                                    <RhoSimpleConstant rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div id='statement_expression'>
+                                    <RhoExpressionComposer rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
+                                </div>
+                            </TabPanel>
+                            <TabList id="type_list">
+                                <Tab disabled={ !(rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName === 'constant value') }>CONST</Tab>
+                                <Tab>EXPR</Tab>
+                            </TabList>
+                        </Tabs>
+                    :
+                        null
+                }
+                </SetFuncFromPathContext.Provider>
+            </div>
         </div>
     )
 }
