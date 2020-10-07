@@ -58,7 +58,7 @@ function RhoExpressionComposer( { rhoFunc, path } )
                     className="LECCloseBtn"
                     onClick={ () => setFuncCallback( path, null ) }
                     onMouseOver={ () => block.current.style.background = 'pink' }
-                    onMouseOut={ () => block.current.style.background = 'initial' }
+                    onMouseOut={ () => block.current.style.removeProperty('background') }
                 >X</div>
             </div>
     );

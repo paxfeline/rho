@@ -26,6 +26,7 @@ code {
   padding-right: 1em;
   border: 1px solid black;
   position: relative;
+  background: white;
 }
 
 .LECBlockValue:hover
@@ -164,7 +165,7 @@ code {
 
 .react-tabs__tab {
   display: inline-block;
-  background: white;
+  background: #aaa;
   border: 1px solid #aaa;
   bottom: -1px;
   position: relative;
@@ -176,9 +177,16 @@ code {
 }
 
 .react-tabs__tab--selected {
-  background: #aaa;
   border-color: #aaa;
   color: black;
+  background: white;
+  box-shadow: 0 0 5px tomato, 0 0 4px tomato, 0 0 3px tomato, 0 0 2px tomato, 0 0 1px tomato;
+}
+
+.react-tabs__tab--disabled
+{
+  color: grey;
+
 }
 
 .react-tabs__tab-panel
@@ -196,14 +204,14 @@ code {
 #type_list
 {
   position: absolute;
-  top: 12em;
+  top: 4em;
   left: 22em;
 }
 
 #statement_expression
 {
   position: absolute;
-  top: 7em;
+  top: 12em;
   left: 25em;
 }
 
@@ -213,6 +221,7 @@ code {
 {
   position: relative;
   padding: 1em;
+  background-color: grey;
 }
 
 .RhoStatementConsoleLeft
@@ -222,8 +231,11 @@ code {
 .RhoStatementConsoleRight1
 {
   position: absolute;
-  top: 5em;
-  left: 25em;
+  top: 7.5rem;
+  left: 25rem;
+  font-size: 2.5em;
+  overflow-y: auto;
+  max-height: 4.5rem;
 }
 
 .RhoStatementConsoleRight2
