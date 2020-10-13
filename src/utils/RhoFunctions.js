@@ -153,9 +153,33 @@ export const rhoForwardFunctionFactory = createRhoFunctionFactory(
   "move forward",
 );
 
+/**/
+
+export const rhoBackwardFunctionFactory = createRhoFunctionFactory(
+  function ( { rhoFunc, path } )
+  {
+    return (
+      <React.Fragment>
+        Backward: <RhoExpressionComposer rhoFunc={rhoFunc.args[0]} path={[...path, 0]} />
+      </React.Fragment>
+    );
+  },
+  function ( val )
+  {
+    // actually go forward
+    return val.execute();
+  },
+  function ( val )
+  {
+    return `bk ${val ? val.display() : "(undefined)"}`;
+  },
+  "move backward",
+);
+
 export const statementTree =
   {
     forwardFactory: rhoForwardFunctionFactory,
+    backwardFactory: rhoBackwardFunctionFactory,
   };
 
 export const funcChoiceTree = [rhoAddFunctionFactory, rhoConstantFunctionFactory];

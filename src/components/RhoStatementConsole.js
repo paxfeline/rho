@@ -95,30 +95,37 @@ function RhoStatementConsole( {} )
         console.log( rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName );
 
     return (
-        <div class="RhoStatementConsoleContainer">
-            <div class="RhoStatementConsoleLeft">
+        <div className="RhoStatementConsoleContainer">
+            <div className="RhoStatementConsoleLeft">
                 <Tabs>
                     <TabPanel>
-                        <div class="container">
+                        <div className="container">
 
-                            <div class="row">
-                                <div class={`ostar first ${rhoFunc && rhoFunc.rhoName === 'move forward' ? 'bgblue' : ''}`}
+                            <div className="row">
+                                <div className={`ostar first ${rhoFunc && rhoFunc.rhoName === 'move forward' ? 'bgblue' : ''}`}
                                     onClick={
                                         ()=> {
                                             const fwdFunc = statementTree.forwardFactory();
                                             fwdFunc.args[0] = rhoConstantFunctionFactory()
                                             setRhoFunc( fwdFunc );
                                             setKey( uidGenerator() );
-                                        } }></div>
-                                <div class="ostar second"></div>
+                                        } } />
+                                <div className="ostar second" />
                                 </div>
-                            <div class="row">
-                                <div class="ostar third"></div>
-                                <div class="ostar fourth"></div>
+                            <div className="row">
+                                <div className="ostar third" />
+                                <div className={`ostar fourth ${rhoFunc && rhoFunc.rhoName === 'move backward' ? 'bgblue' : ''}`}
+                                    onClick={
+                                        ()=> {
+                                            const bkFunc = statementTree.backwardFactory();
+                                            bkFunc.args[0] = rhoConstantFunctionFactory()
+                                            setRhoFunc( bkFunc );
+                                            setKey( uidGenerator() );
+                                        } } />
                             </div>
 
-                            <div class="inner-top"></div>
-                            <div class="inner-bottom"></div>
+                            <div className="inner-top" />
+                            <div className="inner-bottom" />
 
                         </div>
                     </TabPanel>
@@ -134,11 +141,11 @@ function RhoStatementConsole( {} )
                 </Tabs>
             </div>
 
-            <div class="RhoStatementConsoleRight1">
+            <div className="RhoStatementConsoleRight1">
                 {rhoFunc ? rhoFunc.display() : null}
             </div>
 
-            <div class="RhoStatementConsoleRight2">
+            <div className="RhoStatementConsoleRight2">
                 <SetFuncFromPathContext.Provider value={setFunctionFromPath}>
                 {
                     rhoFunc
