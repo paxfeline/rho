@@ -26,7 +26,6 @@ code {
   padding-right: 1em;
   border: 1px solid black;
   position: relative;
-  background: white;
 }
 
 .LECBlockValue:hover
@@ -180,7 +179,7 @@ code {
   border-color: #aaa;
   color: black;
   background: white;
-  box-shadow: 0 0 5px tomato, 0 0 4px tomato, 0 0 3px tomato, 0 0 2px tomato, 0 0 1px tomato;
+  box-shadow: 0 0 2px 2px tomato;
 }
 
 .react-tabs__tab--disabled
@@ -208,11 +207,16 @@ code {
   left: 22em;
 }
 
-#statement_expression
+#statement_expression, #statement_constant
 {
   position: absolute;
   top: 12em;
   left: 25em;
+}
+
+#statement_expression
+{
+  background: white;
 }
 
 /***********************/

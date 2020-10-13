@@ -108,7 +108,7 @@ function RhoStatementConsole( {} )
                                             const fwdFunc = statementTree.forwardFactory();
                                             fwdFunc.args[0] = rhoConstantFunctionFactory()
                                             setRhoFunc( fwdFunc );
-                                            //setKey( uidGenerator() );
+                                            setKey( uidGenerator() );
                                         } }></div>
                                 <div class="ostar second"></div>
                                 </div>
@@ -145,7 +145,7 @@ function RhoStatementConsole( {} )
                     ?
                         <Tabs>
                             <TabPanel>
-                                <div id='statement_expression'>
+                                <div id='statement_constant'>
                                     <RhoSimpleConstant rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
                                 </div>
                             </TabPanel>
