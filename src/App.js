@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Turtle from './components/Turtle';
 import './App.css';
-import RhoStatementConsole from './components/RhoStatementConsole';
+import RhoStatementList from './components/RhoStatementList';
 
 function App()
 {
   return (
     <div>
-      <RhoStatementConsole />
+      <RhoStatementList />
       {/*
       Compose expression:<br />
       <SetFuncFromPathContext.Provider value={setFunctionFromPath}>

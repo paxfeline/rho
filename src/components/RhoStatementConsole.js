@@ -14,11 +14,11 @@ function uidGenerator()
 
 export const SetFuncFromPathContext = React.createContext(null);
 
-function RhoStatementConsole( {} )
+function RhoStatementConsole( { inRhoFunc, saveRhoFunc } )
 {
     const [cmdMode, setCmdMode] = useState(1); // 1 = fd/bk/rt/lt/pu/pd, 2 = the rest
     const [inputMode, setInputMode] = useState(1); // 1 = constant, 2 = expression
-    const [rhoFunc, setRhoFunc] = useState(null);
+    const [rhoFunc, setRhoFunc] = useState( inRhoFunc );
 
     const [key, setKey] = useState( uidGenerator() );
 
@@ -92,7 +92,7 @@ function RhoStatementConsole( {} )
         }, [rhoFunc] );
         */
     
-        console.log( rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName );
+    console.log( saveRhoFunc, rhoFunc );
 
     return (
         <div className="RhoStatementConsoleContainer">
@@ -171,6 +171,12 @@ function RhoStatementConsole( {} )
                 }
                 </SetFuncFromPathContext.Provider>
             </div>
+
+            <div className="RhoStatementConsoleOK">
+                <input type="button" value="commit" onClick={() => saveRhoFunc( rhoFunc )} disabled={rhoFunc === null} />
+            </div>
+
+            <div className="RhoStatementConsoleDisableOverlay" style={{ display: saveRhoFunc === null ? 'block' : 'none' }} />
         </div>
     )
 }
