@@ -16,6 +16,9 @@ export const SetFuncFromPathContext = React.createContext(null);
 
 function clone( func )
 {
+    if ( !func )
+        return null;
+
     if ( func.args )
     {
         const r = { ...func };
@@ -144,7 +147,7 @@ function RhoStatementConsole( { inRhoFunc, saveRhoFunc } )
                 {
                     rhoFunc
                     ?
-                        <Tabs>
+                        <Tabs defaultIndex={!(rhoFunc && rhoFunc.args[0] && rhoFunc.args[0].rhoName === 'constant value') ? 1 : 0}>
                             <TabPanel>
                                 <div id='statement_constant'>
                                     <RhoSimpleConstant rhoFunc={rhoFunc.args[0]} path={[0]} key={key} />
