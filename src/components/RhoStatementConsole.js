@@ -14,13 +14,33 @@ function uidGenerator()
 
 export const SetFuncFromPathContext = React.createContext(null);
 
+function clone( func )
+{
+    if ( func.args )
+    {
+        const r = { ...func };
+        r.args = [ ...r.args ];
+        for ( let i = 0; i < r.args.length; i++ )
+            r.args[i] = clone( r.args[i] );
+        return r;
+    }
+    else
+        return func
+}
+
 function RhoStatementConsole( { inRhoFunc, saveRhoFunc } )
 {
     const [cmdMode, setCmdMode] = useState(1); // 1 = fd/bk/rt/lt/pu/pd, 2 = the rest
     const [inputMode, setInputMode] = useState(1); // 1 = constant, 2 = expression
-    const [rhoFunc, setRhoFunc] = useState( inRhoFunc );
+    const [rhoFunc, setRhoFunc] = useState( null );
 
     const [key, setKey] = useState( uidGenerator() );
+
+    useEffect(
+        () =>
+        {
+            setRhoFunc( inRhoFunc ? clone(inRhoFunc) : null );
+        }, [] );
 
     /* setFunctionFromPath takes a path (down a tree structure),
     and a value to set. It traverses the tree until it finds
@@ -44,7 +64,7 @@ function RhoStatementConsole( { inRhoFunc, saveRhoFunc } )
             else
             {
                 // copy to new object
-                let root = { ...rhoFunc };
+                let root = clone( rhoFunc ); //{ ...rhoFunc };
                 let cf = root;
                 let prev = cf;
 
@@ -53,44 +73,18 @@ function RhoStatementConsole( { inRhoFunc, saveRhoFunc } )
                 {
                     let index = path[i];
                     // duplicate each link (so that all the corresponding components update)
-                    cf = { ...cf.args[ index ] };
+                    cf = cf.args[ index ]
                     prev.args[ index ] = cf; // update prev links args
                     prev = cf;
                 }
 
                 // set the last link
-                cf.args = [ ...cf.args ];
                 cf.args[ path[ path.length - 1 ] ] = rhoFuncToSet;
-
-                /*
-                function duplicateChildren( func )
-                {
-                    for ( let i in func.args )
-                    {
-                        if ( func.args[ i ] instanceof Object )
-                        {
-                            func.args[ i ] =  { ...func.args[ i ] };
-                            duplicateChildren( func.args[ i ] );
-                        }
-                    }
-                }
-
-                duplicateChildren( rhoFuncToSet );
-                */
 
                 // once the new expression tree has been created, update the root function
                 setRhoFunc( root );
             }
         };
-    
-        /*
-    useEffect(
-        () =>
-        {
-            if ( rhoFunc && !rhoFunc.args[0] )
-                setFunctionFromPath( [0], rhoConstantFunctionFactory() );
-        }, [rhoFunc] );
-        */
     
     console.log( saveRhoFunc, rhoFunc );
 
@@ -173,9 +167,11 @@ function RhoStatementConsole( { inRhoFunc, saveRhoFunc } )
             </div>
 
             <div className="RhoStatementConsoleOK">
+                <input type="button" value="cancel" onClick={() => saveRhoFunc( null )} disabled={saveRhoFunc === null} />
+                &nbsp;&nbsp;
                 <input type="button" value="commit" onClick={() => saveRhoFunc( rhoFunc )} disabled={rhoFunc === null} />
             </div>
-
+            
             <div className="RhoStatementConsoleDisableOverlay" style={{ display: saveRhoFunc === null ? 'block' : 'none' }} />
         </div>
     )

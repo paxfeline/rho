@@ -26,16 +26,19 @@ function RhoStatementList( {} )
     const saveRhoFunc =
         rhoFunc =>
         {
-            if ( mode === MODE.edit )
+            if ( rhoFunc !== null )
             {
-                const newList = [...list];
-                newList[ editIndex ] = rhoFunc;
-                setList( newList );
-            }
-            else if ( mode === MODE.add )
-            {
-                const newList = [...list, rhoFunc];
-                setList( newList );
+                if ( mode === MODE.edit )
+                {
+                    const newList = [...list];
+                    newList[ editIndex ] = rhoFunc;
+                    setList( newList );
+                }
+                else if ( mode === MODE.add )
+                {
+                    const newList = [...list, rhoFunc];
+                    setList( newList );
+                }
             }
             setMode( MODE.neutral );
             setKey( uidGenerator() );
